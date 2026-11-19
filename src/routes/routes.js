@@ -13,7 +13,7 @@ router.get('/consulta', (req, res) => {
 
 
 router.post('/consulta', consulta_datos, (req, res) => {
-    console.log(req.resultados);
+    console.log(JSON.stringify(req.resultados, null, 2)); //TODO quitar
     res.render('consulta', {
         resultados: req.resultados
     });
