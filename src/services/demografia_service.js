@@ -1,4 +1,4 @@
-const datos_demografia = require('./data/datos.json');
+const datos_demografia = require('../data/datos_demografia.json');
 
 function demografia_service(sexo, comunidad, edad, periodo) {
 
@@ -12,11 +12,4 @@ function demografia_service(sexo, comunidad, edad, periodo) {
     return resultado;
 }
 
-const resultado = demografia_service(
-    "Ambos sexos",
-    "Total Nacional",
-    "Total",
-    2025
-);
-
-console.log(resultado);
+module.exports = demografia_service;

@@ -7,4 +7,8 @@ router.get('/', (req, res) =>{
 res.render("index");
 });
 
+router.get('/consulta_demografica', (req, res) => {
+    res.render("pagInicio");
+})
+
 module.exports = router;
