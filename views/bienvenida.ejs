@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es" data-bs-theme="dark">
 
@@ -12,6 +11,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
+    <!-- Iconos de Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+          rel="stylesheet">
+
     <!-- CSS -->
     <link rel="stylesheet" href="css/estilos.css">
 </head>
@@ -23,20 +26,21 @@
 
         <div class="text-center">
 
-            <!-- Nombre -->
-            <h1 class="display-1 fw-bold mb-4">
-                CivicPulse
+            <!-- Logo grande -->
+            <h1 class="display-1 fw-bold mb-4 d-flex justify-content-center align-items-center gap-3">
+                <i class="bi bi-broadcast text-warning"></i>
+                <span>CivicPulse <span class="text-warning">AI</span></span>
             </h1>
 
-            <!-- Descripción -->
-            <p class="lead text-secondary mb-5">
-                Descubre tu entorno a través de los datos.
-            </p>
-
-            <!-- Botón de inicio -->
+            <!-- Botón de entrada (flecha) -->
             <a href="/consulta"
-               class="btn btn-primary btn-lg px-5 py-3">
-                INICIO
+               class="btn btn-outline-light rounded-circle p-3 flecha-entrar"
+               aria-label="Entrar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                     fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+                </svg>
             </a>
 
         </div>
