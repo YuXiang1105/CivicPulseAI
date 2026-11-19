@@ -7,7 +7,7 @@ router.get('/', (req, res) =>{
 res.render("bienvenida");
 });
 
-router.get('/consulta_demografica', (req, res) => {
+router.get('/consulta', (req, res) => {
     res.render("consulta");
 })
 
