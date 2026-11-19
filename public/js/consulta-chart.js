@@ -1,38 +1,43 @@
-const canvas = document.getElementById('graficaEvolucion');
+const canvas = document.getElementById('graficaComparacion');
 const message = document.getElementById('graficaMensaje');
 
 if (canvas && message) {
     const series = JSON.parse(canvas.dataset.series || '[]');
 
-    if (series.length === 0 || series[0].data.length === 0) {
+    if (series.length !== 2 || series.some(serie => serie.data.length === 0)) {
         message.textContent = series.length === 0
-            ? 'Envía una consulta para ver la evolución de los datos.'
-            : 'No hay datos para el año seleccionado.';
-    } else if (typeof Chart !== 'undefined') {
-        const chartData = series[0];
-        const points = chartData.data;
-        const firstYear = points[0].year;
-        const lastYear = points[points.length - 1].year;
+            ? 'Envía las dos selecciones para ver la comparación.'
+            : 'No hay datos para una o ambas selecciones.';
+    } else if (typeof Chart === 'undefined') {
+        message.textContent = 'No se pudo cargar la biblioteca de gráficas.';
+    } else {
+        const years = [...new Set(series.flatMap(serie => serie.data.map(point => point.year)))]
+            .sort((a, b) => a - b);
+        const colors = [
+            { line: '#ffc107', area: 'rgba(255, 193, 7, 0.28)' },
+            { line: '#0dcaf0', area: 'rgba(13, 202, 240, 0.32)' }
+        ];
 
-        document.getElementById('tituloGrafica').textContent =
-            `${chartData.label} (${firstYear} - ${lastYear})`;
-        message.textContent = 'Valores expresados en miles de personas.';
+        message.textContent = 'Valores en miles de personas. El área superior se rellena entre ambas líneas.';
 
         new Chart(canvas, {
             type: 'line',
             data: {
-                labels: points.map(point => point.year),
-                datasets: [{
-                    label: chartData.label,
-                    data: points.map(point => point.value),
-                    borderColor: '#ffc107',
-                    backgroundColor: 'rgba(255, 193, 7, 0.18)',
-                    pointBackgroundColor: '#ffc107',
-                    pointRadius: 3,
+                labels: years,
+                datasets: series.map((serie, index) => ({
+                    label: serie.label,
+                    data: years.map(year =>
+                        serie.data.find(point => point.year === year)?.value ?? null
+                    ),
+                    borderColor: colors[index].line,
+                    backgroundColor: colors[index].area,
+                    borderWidth: 2,
+                    pointRadius: 2,
                     pointHoverRadius: 5,
-                    fill: true,
-                    tension: 0.25
-                }]
+                    fill: index === 0 ? 'origin' : '-1',
+                    tension: 0,
+                    spanGaps: false
+                }))
             },
             options: {
                 responsive: true,
@@ -52,7 +57,7 @@ if (canvas && message) {
                         }
                     },
                     y: {
-                        beginAtZero: false,
+                        beginAtZero: true,
                         ticks: { color: '#adb5bd' },
                         grid: { color: 'rgba(173, 181, 189, 0.12)' },
                         title: {
@@ -64,12 +69,17 @@ if (canvas && message) {
                 },
                 plugins: {
                     legend: {
+                        position: 'bottom',
                         labels: { color: '#f8f9fa' }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: context =>
+                                `${context.dataset.label}: ${context.parsed.y ?? 'sin dato'}`
+                        }
                     }
                 }
             }
         });
-    } else {
-        message.textContent = 'No se pudo cargar la biblioteca de gráficas.';
     }
 }

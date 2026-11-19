@@ -8,14 +8,15 @@ res.render("bienvenida");
 });
 
 router.get('/consulta', (req, res) => {
-    res.render("consulta");
+    res.render("consulta", { filtros: {}, resultados: [] });
 });
 
 
 router.post('/consulta', consulta_datos, (req, res) => {
-    console.log(JSON.stringify(req.resultados, null, 2)); //TODO quitar
     res.render('consulta', {
-        resultados: req.resultados
+        resultados: req.resultados,
+        filtros: req.filtros,
+        error: req.error
     });
 });
 
