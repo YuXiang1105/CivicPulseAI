@@ -3,6 +3,75 @@ const message = document.getElementById('graficaMensaje');
 
 if (canvas && message) {
     const series = JSON.parse(canvas.dataset.series || '[]');
+    const numero = new Intl.NumberFormat('es-ES', {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+    });
+    const numeroSignado = valor => `${valor >= 0 ? '+' : '\u2212'}${numero.format(Math.abs(valor))}`;
+
+    const kpisList = canvas.dataset.kpis
+        ? JSON.parse(canvas.dataset.kpis)
+        : [];
+
+    kpisList.forEach((kpis, indice) => {
+        const numeroSeleccion = indice + 1;
+        const elementos = {
+            anio: document.getElementById(`kpiAnio${numeroSeleccion}`),
+            valor: document.getElementById(`kpiValor${numeroSeleccion}`),
+            variacionTexto: document.getElementById(`kpiVariacionTexto${numeroSeleccion}`),
+            variacionMovil: document.getElementById(`kpiVariacionMovil${numeroSeleccion}`),
+            historicoTexto: document.getElementById(`kpiHistoricoTexto${numeroSeleccion}`),
+            historicoVariacion: document.getElementById(`kpiHistoricoVariacion${numeroSeleccion}`),
+            max: document.getElementById(`kpiMax${numeroSeleccion}`),
+            min: document.getElementById(`kpiMin${numeroSeleccion}`)
+        };
+
+        if (kpis?.ultimo) {
+            elementos.anio.textContent = kpis.ultimo.Anyo;
+            elementos.valor.textContent = `${numero.format(kpis.ultimo.Valor)} mil`;
+
+            if (kpis.variacionAbsoluta !== null && kpis.variacionPorcentual !== null) {
+                const positiva = kpis.variacionAbsoluta >= 0;
+                elementos.variacionMovil.textContent =
+                    `${numeroSignado(kpis.variacionAbsoluta)} mil · ${numeroSignado(kpis.variacionPorcentual)}%`;
+                elementos.variacionMovil.className =
+                    `badge rounded-pill bg-${positiva ? 'success' : 'danger'}-subtle text-${positiva ? 'success' : 'danger'} border border-${positiva ? 'success' : 'danger'}-subtle`;
+                elementos.variacionTexto.textContent = `vs. ${kpis.anterior.Anyo}`;
+            } else {
+                elementos.variacionMovil.textContent = 'Sin comparativa';
+                elementos.variacionMovil.className = 'badge rounded-pill bg-secondary-subtle text-secondary';
+                elementos.variacionTexto.textContent = 'vs. año anterior';
+            }
+
+            if (kpis.variacion2006Absoluta !== null && kpis.variacion2006Porcentual !== null) {
+                const positiva = kpis.variacion2006Absoluta >= 0;
+                elementos.historicoTexto.textContent = '2025 vs. 2006';
+                elementos.historicoVariacion.textContent =
+                    `${numeroSignado(kpis.variacion2006Absoluta)} mil · ${numeroSignado(kpis.variacion2006Porcentual)}%`;
+                elementos.historicoVariacion.className =
+                    `badge rounded-pill bg-${positiva ? 'success' : 'danger'}-subtle text-${positiva ? 'success' : 'danger'} border border-${positiva ? 'success' : 'danger'}-subtle`;
+            } else {
+                elementos.historicoTexto.textContent = '2025 vs. 2006';
+                elementos.historicoVariacion.textContent = 'Sin comparativa';
+                elementos.historicoVariacion.className = 'badge rounded-pill bg-secondary-subtle text-secondary';
+            }
+            elementos.max.textContent = kpis.maximo
+                ? `${numero.format(kpis.maximo.Valor)} mil · ${kpis.maximo.Anyo}`
+                : '—';
+            elementos.min.textContent = kpis.minimo
+                ? `${numero.format(kpis.minimo.Valor)} mil · ${kpis.minimo.Anyo}`
+                : '—';
+        } else {
+            elementos.anio.textContent = '—';
+            elementos.valor.textContent = '—';
+            elementos.variacionMovil.textContent = '';
+            elementos.variacionTexto.textContent = 'vs. año anterior';
+            elementos.historicoTexto.textContent = '2025 vs. 2006';
+            elementos.historicoVariacion.textContent = '—';
+            elementos.max.textContent = '—';
+            elementos.min.textContent = '—';
+        }
+    });
 
     if (series.length !== 2 || series.some(serie => serie.data.length === 0)) {
         message.textContent = series.length === 0

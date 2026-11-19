@@ -17,13 +17,50 @@ function consulta_datos(req, res, next) {
     req.resultados = selecciones.map(({ sexo, comunidad, edad }) => {
         const territorio = comunidad.replace(/^\d{2}\s+/, '');
         const [serie] = demografia_service(sexo, comunidad, edad, periodo);
+        const datos = serie ? serie.Data.slice().sort((a, b) => b.Anyo - a.Anyo) : [];
+        const ultimo = datos[0];
+        const anterior = datos[1];
+        const variacionAbsoluta = ultimo && anterior
+            ? ultimo.Valor - anterior.Valor
+            : null;
+        const variacionPorcentual = ultimo && anterior && anterior.Valor !== 0
+            ? (variacionAbsoluta / anterior.Valor) * 100
+            : null;
+        const dato2006 = datos.find(dato => dato.Anyo === 2006) || null;
+        const dato2025 = datos.find(dato => dato.Anyo === 2025) || null;
+        const variacion2006Absoluta = dato2006 && dato2025
+            ? dato2025.Valor - dato2006.Valor
+            : null;
+        const variacion2006Porcentual = dato2006 && dato2025 && dato2006.Valor !== 0
+            ? (variacion2006Absoluta / dato2006.Valor) * 100
+            : null;
+        const maximo = datos.reduce(
+            (actual, dato) => !actual || dato.Valor > actual.Valor ? dato : actual,
+            null
+        );
+        const minimo = datos.reduce(
+            (actual, dato) => !actual || dato.Valor < actual.Valor ? dato : actual,
+            null
+        );
 
         return {
             etiqueta: `${territorio} · ${sexo} · ${edad}`,
             series: serie ? [{
                 ...serie,
                 etiqueta: `${sexo} · ${edad}`
-            }] : []
+            }] : [],
+            kpis: {
+                ultimo,
+                anterior,
+                variacionAbsoluta,
+                variacionPorcentual,
+                dato2006,
+                dato2025,
+                variacion2006Absoluta,
+                variacion2006Porcentual,
+                maximo,
+                minimo
+            }
         };
     });
 
