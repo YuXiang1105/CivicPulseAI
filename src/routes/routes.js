@@ -4,11 +4,11 @@ const { getHome } = require('../controllers/controller');
 const router = express.Router();
 
 router.get('/', (req, res) =>{
-res.render("index");
+res.render("bienvenida");
 });
 
 router.get('/consulta_demografica', (req, res) => {
-    res.render("pagInicio");
+    res.render("consulta");
 })
 
 module.exports = router;
