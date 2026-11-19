@@ -9,7 +9,38 @@ app.set('view engine', 'ejs');
 
 app.use(express.json());
 app.use(cors());
-app.use(helmet());
+app.use(
+    helmet({
+        contentSecurityPolicy: {
+            directives: {
+                defaultSrc: ["'self'"],
+                styleSrc: [
+                    "'self'",
+                    "https://cdn.jsdelivr.net",
+                    "'unsafe-inline'"
+                ],
+                scriptSrc: [
+                    "'self'",
+                    "https://cdn.jsdelivr.net"
+                ],
+                connectSrc: [
+                    "'self'",
+                    "https://cdn.jsdelivr.net"
+                ],
+                imgSrc: [
+                    "'self'",
+                    "data:",
+                    "https:"
+                ],
+                fontSrc: [
+                    "'self'",
+                    "https://cdn.jsdelivr.net",
+                    "data:"
+                ]
+            }
+        }
+    })
+);
 app.use(morgan('dev'));
 app.use('/', router);
 
