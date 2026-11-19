@@ -21,14 +21,6 @@
         <span>CivicPulse <span class="text-warning">AI</span></span>
       </a>
 
-      <!-- Buscador rápido con icono -->
-      <div class="input-group input-group-sm" style="max-width: 340px;">
-        <span class="input-group-text bg-body-tertiary border-secondary-subtle">
-          <i class="bi bi-search text-secondary"></i>
-        </span>
-        <input type="text" id="buscadorZona" class="form-control bg-body-tertiary border-secondary-subtle" placeholder="Buscar comunidad o indicador...">
-      </div>
-
       <!-- Etiqueta de fuente oficial -->
       <span class="badge rounded-pill bg-warning-subtle text-warning border border-warning-subtle d-none d-md-inline-block">
         <i class="bi bi-database-check me-1"></i>Datos Abiertos · INE
@@ -44,9 +36,8 @@
     <div class="card bg-body-tertiary border-secondary-subtle rounded-4 shadow-sm mb-4">
       <div class="card-body p-3">
         <form id="filtrosForm" class="row g-3 align-items-end">
-          
           <!-- Filtro 1: Sexo -->
-          <div class="col-sm-6 col-lg-3">
+          <div class="col-md-3">
             <label for="sexo" class="form-label small text-secondary fw-semibold mb-1">
               <i class="bi bi-people me-1 text-warning"></i>Sexo
             </label>
@@ -58,7 +49,7 @@
           </div>
 
           <!-- Filtro 2: Edad -->
-          <div class="col-sm-6 col-lg-3">
+          <div class="col-md-3">
             <label for="edad" class="form-label small text-secondary fw-semibold mb-1">
               <i class="bi bi-person-badge me-1 text-warning"></i>Edad
             </label>
@@ -75,62 +66,21 @@
             </select>
           </div>
 
-          <!-- Filtro 3: Periodo -->
-          <div class="col-sm-6 col-lg-3">
-            <label for="periodo" class="form-label small text-secondary fw-semibold mb-1">
-              <i class="bi bi-calendar3 me-1 text-warning"></i>Periodo
-            </label>
-            <select id="periodo" name="periodo" class="form-select form-select-sm bg-dark border-secondary">
-              <option value="2025" selected>2025</option>
-              <option value="2024">2024</option>
-              <option value="2023">2023</option>
-              <option value="2022">2022</option>
-              <option value="2021">2021</option>
-              <option value="2020">2020</option>
-              <option value="2019">2019</option>
-              <option value="2018">2018</option>
-              <option value="2017">2017</option>
-              <option value="2016">2016</option>
-              <option value="2015">2015</option>
-              <option value="2014">2014</option>
-              <option value="2013">2013</option>
-              <option value="2012">2012</option>
-              <option value="2011">2011</option>
-              <option value="2010">2010</option>
-              <option value="2009">2009</option>
-              <option value="2008">2008</option>
-              <option value="2007">2007</option>
-              <option value="2006">2006</option>
-            </select>
-          </div>
-
-          <!-- Filtro 4: Comunidades -->
-          <div class="col-sm-6 col-lg-3">
+          <!-- Filtro 3: Comunidades -->
+          <div class="col-md-3">
             <label for="comunidad" class="form-label small text-secondary fw-semibold mb-1">
               <i class="bi bi-geo-alt me-1 text-warning"></i>Comunidad Autónoma
             </label>
             <select id="comunidad" name="comunidad" class="form-select form-select-sm bg-dark border-secondary">
-              <option value="Total Nacional">Total Nacional</option>
-              <option value="01 Andalucía">01 Andalucía</option>
-              <option value="02 Aragón">02 Aragón</option>
-              <option value="03 Asturias, Principado de">03 Asturias, Principado de</option>
-              <option value="04 Balears, Illes">04 Balears, Illes</option>
-              <option value="05 Canarias">05 Canarias</option>
-              <option value="06 Cantabria">06 Cantabria</option>
-              <option value="07 Castilla y León">07 Castilla y León</option>
-              <option value="08 Castilla - La Mancha">08 Castilla - La Mancha</option>
-              <option value="09 Cataluña">09 Cataluña</option>
-              <option value="10 Comunitat Valenciana">10 Comunitat Valenciana</option>
-              <option value="11 Extremadura">11 Extremadura</option>
-              <option value="12 Galicia">12 Galicia</option>
-              <option value="13 Madrid, Comunidad de">13 Madrid, Comunidad de</option>
-              <option value="14 Murcia, Región de">14 Murcia, Región de</option>
-              <option value="15 Navarra, Comunidad Foral de">15 Navarra, Comunidad Foral de</option>
-              <option value="16 País Vasco">16 País Vasco</option>
-              <option value="17 Rioja, La">17 Rioja, La</option>
-              <option value="18 Ceuta">18 Ceuta</option>
-              <option value="19 Melilla">19 Melilla</option>
+              <!-- ... mantén aquí todas tus <option> de comunidades ... -->
             </select>
+          </div>
+
+          <!-- Botón Mostrar resultados -->
+          <div class="col-md-3">
+            <button type="submit" id="btnMostrar" class="btn btn-warning btn-sm fw-semibold w-100">
+              <i class="bi bi-bar-chart-line me-1"></i>Mostrar resultados
+            </button>
           </div>
 
         </form>
@@ -140,15 +90,15 @@
     <!-- 3. ZONA DE RESULTADOS (IZQUIERDA VISUAL / DERECHA TARJETAS) -->
     <div class="row g-4">
       
-      <!-- Columna izquierda (65%): Mapa o Gráfica de evolución -->
+      <!-- Columna izquierda (65%): Gráfica de evolución -->
       <div class="col-lg-8">
-        <div class="card bg-body-tertiary border-secondary-subtle rounded-4 h-100" style="min-height: 400px;">
-          <div class="card-body d-flex flex-column justify-content-center align-items-center text-center p-4">
-            <i class="bi bi-map text-secondary fs-1 mb-2"></i>
-            <h5 class="fw-semibold text-light">Visualización Territorial / Evolución</h5>
-            <p class="text-secondary small mb-0" style="max-width: 380px;">
-              Aquí pintaremos el mapa por comunidades o la gráfica histórica (2006–2025) según los filtros seleccionados arriba.
-            </p>
+        <div class="card bg-body-tertiary border-secondary-subtle rounded-4 h-100">
+          <div class="card-body p-4">
+            <h5 class="fw-semibold mb-3" id="tituloGrafica">Evolución histórica (2006 - 2025)</h5>
+            <!-- Este div con altura fija evita que la gráfica crezca sin parar -->
+            <div style="height: 350px; position: relative;">
+              <canvas id="graficaEvolucion"></canvas>
+            </div>
           </div>
         </div>
       </div>
