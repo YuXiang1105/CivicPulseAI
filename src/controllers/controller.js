@@ -2,14 +2,17 @@ const demografia_service = require('../services/demografia_service');
 
 function consulta_datos(req, res, next) {
     const { sexo1, sexo2, comunidad1, comunidad2, edad1, edad2, periodo } = req.body;
+    const modo = req.body.modo === 'comparar' ? 'comparar' : 'individual';
     const selecciones = [
         { sexo: sexo1, comunidad: comunidad1, edad: edad1 },
         { sexo: sexo2, comunidad: comunidad2, edad: edad2 }
-    ];
+    ].slice(0, modo === 'comparar' ? 2 : 1);
 
-    req.filtros = { sexo1, sexo2, comunidad1, comunidad2, edad1, edad2 };
+    req.filtros = { modo, sexo1, sexo2, comunidad1, comunidad2, edad1, edad2 };
     if (selecciones.some(({ sexo, comunidad, edad }) => !sexo || !comunidad || !edad)) {
-        req.error = 'Completa sexo, territorio y edad para las dos gráficas.';
+        req.error = modo === 'comparar'
+            ? 'Completa sexo, territorio y edad para las dos selecciones.'
+            : 'Completa sexo, territorio y edad para la selección.';
         req.resultados = [];
         return next();
     }

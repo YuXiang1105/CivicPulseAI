@@ -8,7 +8,7 @@ res.render("bienvenida");
 });
 
 router.get('/consulta', (req, res) => {
-    res.render("consulta", { filtros: {}, resultados: [] });
+    res.render("consulta", { filtros: { modo: 'individual' }, resultados: [] });
 });
 
 

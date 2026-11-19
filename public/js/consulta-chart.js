@@ -1,5 +1,31 @@
 const canvas = document.getElementById('graficaComparacion');
 const message = document.getElementById('graficaMensaje');
+const modoIndividual = document.getElementById('modoIndividual');
+const modoComparar = document.getElementById('modoComparar');
+const btnMostrarTexto = document.getElementById('btnMostrarTexto');
+const graficaTitulo = document.getElementById('graficaTitulo');
+
+function actualizarModo() {
+    const comparar = modoComparar?.checked;
+    document.querySelectorAll('[data-seleccion="2"], [data-tarjeta="2"]').forEach(elemento => {
+        elemento.classList.toggle('d-none', !comparar);
+    });
+    document.querySelectorAll('#sexo2, #comunidad2, #edad2').forEach(elemento => {
+        elemento.disabled = !comparar;
+    });
+    if (btnMostrarTexto) {
+        btnMostrarTexto.textContent = comparar ? 'Comparar selecciones' : 'Ver selección';
+    }
+    if (graficaTitulo) {
+        graficaTitulo.textContent = comparar
+            ? 'Comparación de las dos selecciones'
+            : 'Evolución de la selección';
+    }
+}
+
+modoIndividual?.addEventListener('change', actualizarModo);
+modoComparar?.addEventListener('change', actualizarModo);
+actualizarModo();
 
 if (canvas && message) {
     const series = JSON.parse(canvas.dataset.series || '[]');
@@ -73,10 +99,10 @@ if (canvas && message) {
         }
     });
 
-    if (series.length !== 2 || series.some(serie => serie.data.length === 0)) {
+    if (series.length === 0 || series.some(serie => serie.data.length === 0)) {
         message.textContent = series.length === 0
             ? ''
-            : 'No hay datos para una o ambas selecciones.';
+            : 'No hay datos para la selección.';
     } else if (typeof Chart === 'undefined') {
         message.textContent = 'No se pudo cargar la biblioteca de gráficas.';
     } else {
