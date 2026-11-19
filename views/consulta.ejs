@@ -1,3 +1,39 @@
+<%
+  const territorios = [
+    ['Total Nacional', 'Total Nacional'],
+    ['01 Andalucía', '01 Andalucía'],
+    ['02 Aragón', '02 Aragón'],
+    ['03 Asturias, Principado de', '03 Asturias, Principado de'],
+    ['04 Balears, Illes', '04 Balears, Illes'],
+    ['05 Canarias', '05 Canarias'],
+    ['06 Cantabria', '06 Cantabria'],
+    ['07 Castilla y León', '07 Castilla y León'],
+    ['08 Castilla - La Mancha', '08 Castilla - La Mancha'],
+    ['09 Cataluña', '09 Cataluña'],
+    ['10 Comunitat Valenciana', '10 Comunitat Valenciana'],
+    ['11 Extremadura', '11 Extremadura'],
+    ['12 Galicia', '12 Galicia'],
+    ['13 Madrid, Comunidad de', '13 Madrid, Comunidad de'],
+    ['14 Murcia, Región de', '14 Murcia, Región de'],
+    ['15 Navarra, Comunidad Foral de', '15 Navarra, Comunidad Foral de'],
+    ['16 País Vasco', '16 País Vasco'],
+    ['17 Rioja, La', '17 Rioja, La'],
+    ['18 Ceuta', '18 Ceuta'],
+    ['19 Melilla', '19 Melilla']
+  ];
+  const sexos = ['Ambos sexos', 'Hombres', 'Mujeres'];
+  const edades = [
+    'Total',
+    'Menores de 16',
+    'De 16 a 19 años',
+    'De 20 a 24 años',
+    'De 25 a 34 años',
+    'De 35 a 44 años',
+    'De 45 a 54 años',
+    'De 55 a 64 años',
+    '65 y más años'
+  ];
+%>
 <!DOCTYPE html>
 <html lang="es" data-bs-theme="dark">
 <head>
@@ -36,108 +72,73 @@
     <div class="card bg-body-tertiary border-secondary-subtle rounded-4 shadow-sm mb-4">
       <div class="card-body p-3">
         <form id="filtrosForm" class="row g-3 align-items-end" method="POST">
-          <!-- Filtro 1: Sexo -->
-          <div class="col-md-3">
-            <label for="sexo" class="form-label small text-secondary fw-semibold mb-1">
-              <i class="bi bi-people me-1 text-warning"></i>Sexo
-            </label>
-            <select id="sexo" name="sexo" class="form-select form-select-sm bg-dark border-secondary">
-              <option value="Ambos sexos">Ambos sexos</option>
-              <option value="Hombres">Hombres</option>
-              <option value="Mujeres">Mujeres</option>
-            </select>
+          <% [1, 2].forEach(numero => { %>
+          <div class="col-12">
+            <h2 class="h6 text-warning mb-2">Selección <%= numero %></h2>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label for="sexo<%= numero %>" class="form-label small text-secondary">Sexo</label>
+                <select id="sexo<%= numero %>" name="sexo<%= numero %>" class="form-select form-select-sm bg-dark border-secondary" required>
+                  <% sexos.forEach(sexo => { %>
+                    <option value="<%= sexo %>" <%= filtros[`sexo${numero}`] === sexo ? 'selected' : '' %>><%= sexo %></option>
+                  <% }); %>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="comunidad<%= numero %>" class="form-label small text-secondary">Territorio</label>
+                <select id="comunidad<%= numero %>" name="comunidad<%= numero %>" class="form-select form-select-sm bg-dark border-secondary" required>
+                  <% territorios.forEach(([valor, nombre]) => { %>
+                    <option value="<%= valor %>" <%= filtros[`comunidad${numero}`] === valor ? 'selected' : '' %>><%= nombre %></option>
+                  <% }); %>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="edad<%= numero %>" class="form-label small text-secondary">Edad</label>
+                <select id="edad<%= numero %>" name="edad<%= numero %>" class="form-select form-select-sm bg-dark border-secondary" required>
+                  <% edades.forEach(edad => { %>
+                    <option value="<%= edad %>" <%= filtros[`edad${numero}`] === edad ? 'selected' : '' %>><%= edad %></option>
+                  <% }); %>
+                </select>
+              </div>
+            </div>
           </div>
-
-          <!-- Filtro 2: Edad -->
-          <div class="col-md-3">
-            <label for="edad" class="form-label small text-secondary fw-semibold mb-1">
-              <i class="bi bi-person-badge me-1 text-warning"></i>Edad
-            </label>
-            <select id="edad" name="edad" class="form-select form-select-sm bg-dark border-secondary">
-              <option value="Total">Total</option>
-              <option value="Menores de 16">Menores de 16</option>
-              <option value="De 16 a 19 años">De 16 a 19 años</option>
-              <option value="De 20 a 24 años">De 20 a 24 años</option>
-              <option value="De 25 a 34 años">De 25 a 34 años</option>
-              <option value="De 35 a 44 años">De 35 a 44 años</option>
-              <option value="De 45 a 54 años">De 45 a 54 años</option>
-              <option value="De 55 a 64 años">De 55 a 64 años</option>
-              <option value="65 y más años">65 y más años</option>
-            </select>
-          </div>
-
-          <!-- Filtro 3: Comunidades -->
-          <div class="col-md-3">
-            <label for="comunidad" class="form-label small text-secondary fw-semibold mb-1">
-              <i class="bi bi-geo-alt me-1 text-warning"></i>Comunidad Autónoma
-            </label>
-            <select id="comunidad" name="comunidad" class="form-select form-select-sm bg-dark border-secondary">
-              <option value="Total Nacional">Total Nacional</option>
-              <option value="01 Andalucía">01 Andalucía</option>
-              <option value="02 Aragón">02 Aragón</option>
-              <option value="03 Asturias, Principado de">03 Asturias, Principado de</option>
-              <option value="04 Balears, Illes">04 Balears, Illes</option>
-              <option value="05 Canarias">05 Canarias</option>
-              <option value="06 Cantabria">06 Cantabria</option>
-              <option value="07 Castilla y León">07 Castilla y León</option>
-              <option value="08 Castilla - La Mancha">08 Castilla - La Mancha</option>
-              <option value="09 Cataluña">09 Cataluña</option>
-              <option value="10 Comunitat Valenciana">10 Comunitat Valenciana</option>
-              <option value="11 Extremadura">11 Extremadura</option>
-              <option value="12 Galicia">12 Galicia</option>
-              <option value="13 Madrid, Comunidad de">13 Madrid, Comunidad de</option>
-              <option value="14 Murcia, Región de">14 Murcia, Región de</option>
-              <option value="15 Navarra, Comunidad Foral de">15 Navarra, Comunidad Foral de</option>
-              <option value="16 País Vasco">16 País Vasco</option>
-              <option value="17 Rioja, La">17 Rioja, La</option>
-              <option value="18 Ceuta">18 Ceuta</option>
-              <option value="19 Melilla">19 Melilla</option>
-            </select>
-          </div>
-
-          <!-- Botón Mostrar resultados -->
-          <div class="col-md-3">
+          <% }); %>
+          <div class="col-12">
             <button type="submit" id="btnMostrar" class="btn btn-warning btn-sm fw-semibold w-100">
-              <i class="bi bi-bar-chart-line me-1"></i>Mostrar resultados
+              <i class="bi bi-bar-chart-line me-1"></i>Comparar selecciones
             </button>
           </div>
         </form>
       </div>
     </div>
+    <% if (typeof error !== 'undefined') { %>
+      <div class="alert alert-warning" role="alert"><%= error %></div>
+    <% } %>
 
     <!-- 3. ZONA DE RESULTADOS (IZQUIERDA VISUAL / DERECHA TARJETAS) -->
     <div class="row g-4">
       
-      <!-- Columna izquierda (65%): Gráfica de evolución -->
+      <!-- Columna izquierda: Comparación de áreas -->
       <div class="col-lg-8">
-        <div class="card bg-body-tertiary border-secondary-subtle rounded-4 h-100">
+        <div class="card bg-body-tertiary border-secondary-subtle rounded-4 mb-4">
           <div class="card-body p-4">
-            <h5 class="fw-semibold mb-3" id="tituloGrafica">Evolución histórica (2006 - 2025)</h5>
-            <!-- Este div con altura fija evita que la gráfica crezca sin parar -->
-            <div style="height: 350px; position: relative;">
-              <canvas id="graficaEvolucion"></canvas>
+            <h5 class="fw-semibold mb-3">Comparación de las dos selecciones</h5>
+            <div style="height: 480px; position: relative;">
+              <canvas
+                id="graficaComparacion"
+                data-series="<%= JSON.stringify(resultados.map(resultado => ({ label: resultado.etiqueta, data: resultado.series[0]?.Data.slice().reverse().map(dato => ({ year: dato.Anyo, value: dato.Valor })) || [] }))) %>"
+                aria-label="Gráfica de áreas apiladas comparando las dos selecciones"
+                role="img"></canvas>
             </div>
+            <p id="graficaMensaje" class="text-secondary small mt-3 mb-0" aria-live="polite">
+              Envía las dos selecciones para ver la comparación.
+            </p>
           </div>
         </div>
       </div>
 
       <!-- Columna derecha (35%): Tarjetas Bento de decisión -->
       <div class="col-lg-4 d-flex flex-column gap-3">
-        
-        <!-- Tarjeta destacada de Recomendación / Análisis -->
-        <div class="card bg-body-tertiary border-warning rounded-4 shadow-sm">
-          <div class="card-body">
-            <div class="d-flex align-items-center gap-2 text-warning small fw-semibold mb-1">
-              <i class="bi bi-lightbulb-fill"></i>
-              <span>Análisis Inteligente</span>
-            </div>
-            <h5 class="fw-bold mb-1" id="tituloZona">Total Nacional · 2025</h5>
-            <p class="text-light-emphasis small mb-0" id="textoRecomendacion">
-              Selecciona una comunidad autónoma o tramo de edad para comparar su evolución respecto a la media nacional.
-            </p>
-          </div>
-        </div>
-
         <div class="card bg-body-tertiary border-secondary-subtle rounded-4">
           <div class="card-body">
             <span class="text-secondary small d-block mb-1">
@@ -168,3 +169,10 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="/js/consulta-chart.js"></script>
+</body>
+</html>
