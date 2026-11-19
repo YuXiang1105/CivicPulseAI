@@ -3,6 +3,8 @@ const { getHome } = require('../controllers/controller');
 
 const router = express.Router();
 
-router.get('/', getHome);
+router.get('/', (req, res) =>{
+res.render("index");
+});
 
 module.exports = router;

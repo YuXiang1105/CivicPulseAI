@@ -1,5 +1,6 @@
-const getHome = (req, res) => {
-  res.render('index');
-};
+function consulta_datos(req, res, next){
+ 
 
-module.exports = { getHome };
+}
+
+module.exports = { consulta_datos };
