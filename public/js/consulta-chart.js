@@ -6,7 +6,7 @@ if (canvas && message) {
 
     if (series.length !== 2 || series.some(serie => serie.data.length === 0)) {
         message.textContent = series.length === 0
-            ? 'Envía las dos selecciones para ver la comparación.'
+            ? ''
             : 'No hay datos para una o ambas selecciones.';
     } else if (typeof Chart === 'undefined') {
         message.textContent = 'No se pudo cargar la biblioteca de gráficas.';
