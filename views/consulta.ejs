@@ -101,7 +101,6 @@
               <i class="bi bi-bar-chart-line me-1"></i>Mostrar resultados
             </button>
           </div>
-
         </form>
       </div>
     </div>
@@ -139,7 +138,33 @@
           </div>
         </div>
 
-        <!-- Tarjeta de Dato Clave -->
         <div class="card bg-body-tertiary border-secondary-subtle rounded-4">
           <div class="card-body">
-            <span class="text-secondary small d
+            <span class="text-secondary small d-block mb-1">
+              Último dato · <span id="kpiAnio">—</span>
+            </span>
+
+            <div class="d-flex align-items-baseline gap-2 flex-wrap">
+              <span class="display-6 fw-bold" id="kpiValor">—</span>
+              <span class="badge rounded-pill" id="kpiVariacion"></span>
+            </div>
+            <div class="text-secondary small" id="kpiVariacionTexto">vs. año anterior</div>
+
+            <hr class="border-secondary-subtle my-3">
+
+            <div class="row g-2 small">
+              <div class="col-12 d-flex justify-content-between">
+                <span class="text-secondary">Vs. Total Nacional</span>
+                <span class="fw-semibold" id="kpiVsNacional">—</span>
+              </div>
+              <div class="col-12 d-flex justify-content-between">
+                <span class="text-secondary">Máximo histórico</span>
+                <span class="fw-semibold" id="kpiMax">—</span>
+              </div>
+              <div class="col-12 d-flex justify-content-between">
+                <span class="text-secondary">Mínimo histórico</span>
+                <span class="fw-semibold" id="kpiMin">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
