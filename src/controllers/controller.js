@@ -1,5 +1,16 @@
 const demografia_service = require('../services/demografia_service');
 
+const nombresTerritorios = {
+    'Asturias, Principado de': 'Principado de Asturias',
+    'Balears, Illes': 'Islas Baleares',
+    'Castilla - La Mancha': 'Castilla-La Mancha',
+    'Comunitat Valenciana': 'Comunidad Valenciana',
+    'Madrid, Comunidad de': 'Comunidad de Madrid',
+    'Murcia, Región de': 'Región de Murcia',
+    'Navarra, Comunidad Foral de': 'Comunidad Foral de Navarra',
+    'Rioja, La': 'La Rioja'
+};
+
 function consulta_datos(req, res, next) {
     const { sexo1, sexo2, comunidad1, comunidad2, edad1, edad2, periodo } = req.body;
     const selecciones = [
@@ -15,8 +26,8 @@ function consulta_datos(req, res, next) {
     }
 
     req.resultados = selecciones.map(({ sexo, comunidad, edad }) => {
-        const territorio = comunidad.replace(/^\d{2}\s+/, '');
         const [serie] = demografia_service(sexo, comunidad, edad, periodo);
+        const territorio = nombresTerritorios[comunidad] || comunidad;
         const datos = serie ? serie.Data.slice().sort((a, b) => b.Anyo - a.Anyo) : [];
         const ultimo = datos[0];
         const anterior = datos[1];
