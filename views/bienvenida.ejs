@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es" data-bs-theme="dark">
 
@@ -5,45 +6,179 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CivicPulse</title>
+    <title>DemographicData</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Iconos de Bootstrap -->
+    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
           rel="stylesheet">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/estilos.css">
+    <style>
+
+        /* CONFIGURACIÓN GENERAL */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #202427;
+            color: #f8f9fa;
+            overflow: hidden;
+        }
+
+        /* PORTADA */
+        .portada {
+            min-height: 100vh;
+            width: 100%;
+            background-color: #202427;
+        }
+
+        /* CONTENIDO */
+        .contenido {
+            text-align: center;
+            animation: aparecer 1s ease;
+        }
+
+        /* LOGOTIPO */
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 22px;
+            margin-bottom: 45px;
+        }
+
+        .logo i {
+            color: #ffbf00;
+            font-size: clamp(3.5rem, 8vw, 5.5rem);
+        }
+
+        .logo h1 {
+            font-size: clamp(2.8rem, 8vw, 6rem);
+            font-weight: 800;
+            letter-spacing: -3px;
+            margin: 0;
+            color: #f8f9fa;
+        }
+
+        .logo h1 span {
+            color: #ffbf00;
+        }
+
+        /* BOTÓN ENTRAR */
+        .boton-entrar {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+
+            padding: 15px 35px;
+
+            color: #202427;
+            background-color: #ffbf00;
+
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+
+            border-radius: 50px;
+
+            transition: all 0.3s ease;
+        }
+
+        .boton-entrar i {
+            font-size: 1.3rem;
+            transition: transform 0.3s ease;
+        }
+
+        .boton-entrar:hover {
+            background-color: #ffd34e;
+            color: #202427;
+            transform: translateY(-4px);
+        }
+
+        .boton-entrar:hover i {
+            transform: translateX(5px);
+        }
+
+        /* ANIMACIÓN */
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 576px) {
+
+            .logo {
+                flex-direction: column;
+                gap: 10px;
+                margin-bottom: 35px;
+            }
+
+            .logo h1 {
+                font-size: 2.8rem;
+                letter-spacing: -1.5px;
+            }
+
+            .logo i {
+                font-size: 3.5rem;
+            }
+
+        }
+
+        /* ACCESIBILIDAD */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+    </style>
+
 </head>
 
-<body class="bg-dark text-light">
+<body>
 
-    <!-- PORTADA -->
-    <main class="container-fluid min-vh-100 d-flex justify-content-center align-items-center">
+    <main class="portada d-flex justify-content-center align-items-center">
 
-        <div class="text-center">
+        <section class="contenido">
 
-            <!-- Logo grande -->
-            <h1 class="display-1 fw-bold mb-4 d-flex justify-content-center align-items-center gap-3">
-                <i class="bi bi-broadcast text-warning"></i>
-                <span>CivicPulse <span class="text-warning">AI</span></span>
-            </h1>
+            <!-- LOGOTIPO -->
+            <div class="logo">
 
-            <!-- Botón de entrada (flecha) -->
-            <a href="/consulta"
-               class="btn btn-outline-light rounded-circle p-3 flecha-entrar"
-               aria-label="Entrar">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-                     fill="currentColor" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                          d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
-                </svg>
+                <i class="bi bi-broadcast"></i>
+
+                <h1>
+                    Demographic<span>Data</span>
+                </h1>
+
+            </div>
+
+            <!-- BOTÓN ENTRAR -->
+            <a href="/consulta" class="boton-entrar">
+
+                <span>Entrar</span>
+
+                <i class="bi bi-arrow-right"></i>
+
             </a>
 
-        </div>
+        </section>
 
     </main>
 
