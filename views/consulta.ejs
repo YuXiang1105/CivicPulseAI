@@ -115,8 +115,15 @@
             <h5 class="fw-semibold mb-3" id="tituloGrafica">Evolución histórica (2006 - 2025)</h5>
             <!-- Este div con altura fija evita que la gráfica crezca sin parar -->
             <div style="height: 350px; position: relative;">
-              <canvas id="graficaEvolucion"></canvas>
+              <canvas
+                id="graficaEvolucion"
+                data-series="<%= JSON.stringify(typeof resultados === 'undefined' ? [] : resultados.map(serie => ({ label: serie.Nombre.trim(), data: serie.Data.slice().reverse().map(dato => ({ year: dato.Anyo, value: dato.Valor })) }))) %>"
+                aria-label="Gráfica de evolución demográfica por año"
+                role="img"></canvas>
             </div>
+            <p id="graficaMensaje" class="text-secondary small mt-3 mb-0" aria-live="polite">
+              Envía una consulta para ver la evolución de los datos.
+            </p>
           </div>
         </div>
       </div>
@@ -168,3 +175,10 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="/js/consulta-chart.js"></script>
+</body>
+</html>

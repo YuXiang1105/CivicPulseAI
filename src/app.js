@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
+const path = require('path');
 const router = require('./routes/routes');
 
 const app = express();
@@ -44,6 +45,7 @@ app.use(
 );
 
 app.use(morgan('dev'));
+app.use(express.static(path.join(__dirname, '../public')));
 app.use('/', router);
 app.use(express.json());
 module.exports = app;
