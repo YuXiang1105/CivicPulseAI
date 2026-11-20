@@ -13,7 +13,7 @@ router.get('/consulta', (req, res) => {
 
 
 router.post('/consulta', consulta_datos, (req, res) => {
-    res.render('consulta', {
+    res.status(req.error ? 400 : 200).render('consulta', {
         resultados: req.resultados,
         filtros: req.filtros,
         error: req.error
