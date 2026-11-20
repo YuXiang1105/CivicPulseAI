@@ -4,6 +4,50 @@ const modoIndividual = document.getElementById('modoIndividual');
 const modoComparar = document.getElementById('modoComparar');
 const btnMostrarTexto = document.getElementById('btnMostrarTexto');
 const graficaTitulo = document.getElementById('graficaTitulo');
+const mapa = document.getElementById('mapaEspana');
+const mapaLeyenda = document.getElementById('mapaLeyenda');
+const mapaMensaje = document.getElementById('mapaMensaje');
+
+function actualizarMapa() {
+    if (!mapa || !mapaLeyenda || !mapaMensaje) {
+        return;
+    }
+
+    const selecciones = [1, 2]
+        .filter(numero => numero === 1 || (modoComparar?.checked && !document.getElementById('comunidad2')?.disabled))
+        .map(numero => {
+            const opcion = document.querySelector(`#comunidad${numero} option:checked`);
+            return opcion?.dataset.mapa
+                ? { numero, id: opcion.dataset.mapa, nombre: opcion.textContent.trim() }
+                : null;
+        })
+        .filter(Boolean);
+
+    mapa.querySelectorAll('[data-community]').forEach(territorio => {
+        const seleccion1 = selecciones.some(seleccion => seleccion.numero === 1 && seleccion.id === territorio.dataset.community);
+        const seleccion2 = selecciones.some(seleccion => seleccion.numero === 2 && seleccion.id === territorio.dataset.community);
+        territorio.classList.toggle('is-seleccion-1', seleccion1 && !seleccion2);
+        territorio.classList.toggle('is-seleccion-2', seleccion2 && !seleccion1);
+        territorio.classList.toggle('is-seleccion-ambas', seleccion1 && seleccion2);
+    });
+
+    mapaLeyenda.replaceChildren();
+    selecciones.forEach(seleccion => {
+        const elemento = document.createElement('div');
+        elemento.className = 'd-flex align-items-center gap-2 py-1';
+        const clave = document.createElement('span');
+        clave.className = `mapa-clave mapa-clave-${seleccion.numero}`;
+        const nombre = document.createElement('span');
+        nombre.className = 'small';
+        nombre.textContent = `Selección ${seleccion.numero}: ${seleccion.nombre}`;
+        elemento.append(clave, nombre);
+        mapaLeyenda.append(elemento);
+    });
+
+    mapaMensaje.textContent = selecciones.length
+        ? 'Las selecciones se resaltan en el mapa con los colores indicados.'
+        : 'El total nacional no corresponde a una comunidad concreta.';
+}
 
 function actualizarModo() {
     const comparar = modoComparar?.checked;
@@ -21,10 +65,14 @@ function actualizarModo() {
             ? 'Comparación de las dos selecciones'
             : 'Evolución de la selección';
     }
+    actualizarMapa();
 }
 
 modoIndividual?.addEventListener('change', actualizarModo);
 modoComparar?.addEventListener('change', actualizarModo);
+[1, 2].forEach(numero => {
+    document.getElementById(`comunidad${numero}`)?.addEventListener('change', actualizarMapa);
+});
 actualizarModo();
 
 if (canvas && message) {
