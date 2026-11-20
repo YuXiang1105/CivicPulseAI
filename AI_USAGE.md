@@ -1,7 +1,7 @@
 
-## **Tu AI usage(chatgpt): Yu Xiang**
+## **Tu AI usage(chatgpt, claude, gemini, copilot):**
 
-Por lo que hemos trabajado en nuestras conversaciones, utilizas ChatGPT principalmente como **asistente técnico y compañero de desarrollo**, especialmente para avanzar con tu proyecto CivicPulseAI.
+Por lo que hemos trabajado en nuestras conversaciones, utilizas por la IA principalmente como **asistente técnico y compañero de desarrollo**, especialmente para avanzar con tu proyecto CivicPulseAI.
 
 ### **1. Tus principales usos**
 
@@ -52,3 +52,9 @@ Utilizas la IA como una combinación de:
 **En resumen:** no utilizas la IA únicamente para obtener respuestas; la utilizas para aprender, resolver problemas reales y construir software.
 
 *Nota: este resumen se basa en el contexto de nuestras conversaciones disponibles, no en estadísticas completas de tu cuenta.*
+
+### **5. Contribuciones de IA en la visualización geográfica**
+
+- Se incorporó un mapa para ubicar los territorios seleccionados en las consultas y comparaciones.
+- Se mejoró su presentación visual para distinguir las selecciones y mostrar Canarias separada de la península.
+- Se comprobó en el navegador que el mapa responde a los filtros y que los territorios se muestran correctamente.
